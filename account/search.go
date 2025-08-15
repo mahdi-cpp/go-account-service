@@ -1,18 +1,18 @@
-package go_account_service
+package account
 
 import (
-	"github.com/mahdi-cpp/MessageKit/pkg/search_manager"
+	"github.com/mahdi-cpp/api-go-pkg/search"
 	"strings"
 )
 
-var PHAssetLessFuncs = map[string]search_manager.LessFunction[*User]{
+var PHAssetLessFuncs = map[string]search.LessFunction[*User]{
 	"id":               func(a, b *User) bool { return a.ID < b.ID },
 	"creationDate":     func(a, b *User) bool { return a.CreationDate.Before(b.CreationDate) },
 	"modificationDate": func(a, b *User) bool { return a.ModificationDate.Before(b.ModificationDate) },
 	"title":            func(a, b *User) bool { return a.Username < b.Username },
 }
 
-func GetLessFunc(sortBy, sortOrder string) search_manager.LessFunction[*User] {
+func GetLessFunc(sortBy, sortOrder string) search.LessFunction[*User] {
 
 	fn, exists := PHAssetLessFuncs[sortBy]
 	if !exists {
@@ -25,7 +25,7 @@ func GetLessFunc(sortBy, sortOrder string) search_manager.LessFunction[*User] {
 	return fn
 }
 
-func BuildUserSearchCriteria(with Options) search_manager.SearchCriteria[*User] {
+func BuildUserSearchCriteria(with Options) search.SearchCriteria[*User] {
 
 	return func(c *User) bool {
 
@@ -75,13 +75,13 @@ func Search(chats []*User, with Options) []*User {
 	criteria := BuildUserSearchCriteria(with)
 
 	// Execute search_manager
-	results := search_manager.Search(chats, criteria)
+	results := search.Search(chats, criteria)
 
 	// Sort results if needed
 	if with.SortBy != "" {
 		lessFn := GetLessFunc(with.SortBy, with.SortOrder)
 		if lessFn != nil {
-			search_manager.SortIndexedItems(results, lessFn)
+			search.SortIndexedItems(results, lessFn)
 		}
 	}
 
