@@ -162,6 +162,9 @@ func (m *ClientManager) fetchUsers(msg *redis.Message) {
 
 	m.mu.Lock()
 	m.Users = users
+	for _, user := range users {
+		m.UsersMap[user.ID] = user
+	}
 	m.mu.Unlock()
 
 	m.mu.RLock()
