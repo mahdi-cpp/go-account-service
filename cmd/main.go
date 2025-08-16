@@ -24,6 +24,8 @@ func main() {
 		fmt.Println(user.FirstName, user.LastName)
 	}
 
+	manager.Publish()
+
 	fmt.Println("start listening")
 
 	select {}

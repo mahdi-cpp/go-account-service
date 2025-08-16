@@ -134,7 +134,7 @@ func (m *ServiceManager) handleMessage(msg *redis.Message) {
 	case commandChannel:
 		switch msg.Payload {
 		case "list":
-			if err := m.publish(); err != nil {
+			if err := m.Publish(); err != nil {
 				log.Printf("Publish failed: %v", err)
 			}
 		case "user":
@@ -149,7 +149,7 @@ func (m *ServiceManager) handleMessage(msg *redis.Message) {
 	}
 }
 
-func (m *ServiceManager) publish() error {
+func (m *ServiceManager) Publish() error {
 	users, err := m.UserCollection.GetAll()
 	if err != nil {
 		return fmt.Errorf("get users failed: %w", err)

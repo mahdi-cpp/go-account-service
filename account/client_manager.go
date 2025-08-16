@@ -14,6 +14,7 @@ type ClientManager struct {
 	mu        sync.RWMutex
 	rdb       *redis.Client
 	Users     []*User
+	UsersMap  map[string]*User
 	callback  func(msg *redis.Message)
 	ctx       context.Context
 	cancel    context.CancelFunc
@@ -28,6 +29,7 @@ func NewClientManager() (*ClientManager, error) {
 			Addr: "localhost:6389",
 			DB:   0,
 		}),
+		UsersMap: make(map[string]*User),
 		ctx:      ctx,
 		cancel:   cancel,
 		subReady: make(chan struct{}),
@@ -42,6 +44,10 @@ func NewClientManager() (*ClientManager, error) {
 
 	go manager.runMainSubscription()
 	return manager, nil
+}
+
+func (m *ClientManager) GetUsersMap() map[string]*User {
+	return m.UsersMap
 }
 
 func (m *ClientManager) runMainSubscription() {
