@@ -8,6 +8,8 @@ import (
 
 func main() {
 
+	ginInit()
+
 	// Create account manager
 	manager, err := account.NewAccountManager()
 	if err != nil {
@@ -26,7 +28,20 @@ func main() {
 
 	manager.Publish()
 
-	fmt.Println("start listening")
+	h := account.NewUserHandler(manager)
+	userRoute(h)
 
-	select {}
+	startServer(router)
+
+}
+
+func userRoute(h *account.UserHandler) {
+
+	api := router.Group("/api/v1/user")
+
+	api.POST("create", h.Create)
+	api.POST("update", h.Update)
+	api.POST("delete", h.Delete)
+	api.POST("get_user", h.GetUser)
+	api.POST("list", h.GetList)
 }

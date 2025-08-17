@@ -3,12 +3,12 @@ package account
 import (
 	"context"
 	"fmt"
+	"github.com/mahdi-cpp/go-account-service/utils"
 	"log"
 	"sync"
 	"time"
 
 	"github.com/mahdi-cpp/api-go-pkg/collection_manager_uuid7"
-	"github.com/mahdi-cpp/go-account-service/utils"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -168,4 +168,25 @@ func (m *ServiceManager) Publish() error {
 	}
 
 	return nil
+}
+
+func (m *ServiceManager) Create(newUser *User) (*User, error) {
+	return nil, nil
+}
+
+func (m *ServiceManager) Update(update Update) (*User, error) {
+
+	user, err := m.UserCollection.Get(update.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	user.Update(update)
+
+	user, err = m.UserCollection.Update(user)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }
