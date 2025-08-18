@@ -42,7 +42,7 @@ func (handler *UserHandler) Create(c *gin.Context) {
 	//}
 
 	newItem, err := handler.manager.Create(&User{
-		Username:    request.Username,
+		UserName:    request.Username,
 		FirstName:   request.FirstName,
 		LastName:    request.LastName,
 		AvatarURL:   request.AvatarURL,

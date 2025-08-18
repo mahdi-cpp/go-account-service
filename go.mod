@@ -4,7 +4,7 @@ go 1.24.5
 
 require (
 	github.com/gin-gonic/gin v1.10.1
-	github.com/mahdi-cpp/api-go-pkg v1.5.1
+	github.com/mahdi-cpp/api-go-pkg v1.5.7
 	github.com/redis/go-redis/v9 v9.12.1
 )
 

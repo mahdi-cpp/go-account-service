@@ -7,9 +7,9 @@ import (
 
 var PHAssetLessFuncs = map[string]search.LessFunction[*User]{
 	"id":               func(a, b *User) bool { return a.ID < b.ID },
-	"creationDate":     func(a, b *User) bool { return a.CreationDate.Before(b.CreationDate) },
-	"modificationDate": func(a, b *User) bool { return a.ModificationDate.Before(b.ModificationDate) },
-	"title":            func(a, b *User) bool { return a.Username < b.Username },
+	"creationDate":     func(a, b *User) bool { return a.CreatedAt.Before(b.CreatedAt) },
+	"modificationDate": func(a, b *User) bool { return a.UpdatedAt.Before(b.UpdatedAt) },
+	"title":            func(a, b *User) bool { return a.UserName < b.UserName },
 }
 
 func GetLessFunc(sortBy, sortOrder string) search.LessFunction[*User] {
@@ -37,14 +37,14 @@ func BuildUserSearchCriteria(with Options) search.SearchCriteria[*User] {
 		// Title search_manager (case-insensitive)
 		if with.UsernameQuery != "" {
 			query := strings.ToLower(with.UsernameQuery)
-			username := strings.ToLower(c.Username)
+			username := strings.ToLower(c.UserName)
 			if !strings.Contains(username, query) {
 				return false
 			}
 		}
 
 		// Username exact match
-		if with.Username != "" && c.Username != with.Username {
+		if with.Username != "" && c.UserName != with.Username {
 			return false
 		}
 
@@ -54,10 +54,10 @@ func BuildUserSearchCriteria(with Options) search.SearchCriteria[*User] {
 		}
 
 		// Date filters
-		if with.CreatedAfter != nil && c.CreationDate.Before(*with.CreatedAfter) {
+		if with.CreatedAfter != nil && c.CreatedAt.Before(*with.CreatedAfter) {
 			return false
 		}
-		if with.CreatedBefore != nil && c.CreationDate.After(*with.CreatedBefore) {
+		if with.CreatedBefore != nil && c.CreatedAt.After(*with.CreatedBefore) {
 			return false
 		}
 		//if with.ActiveAfter != nil && c.LastMessage != nil &&

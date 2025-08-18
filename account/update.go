@@ -10,13 +10,13 @@ func init() {
 	// Basic Info Updates
 	chatUpdater.AddScalarUpdater(func(c *User, u Update) {
 		if u.Username != "" {
-			c.Username = u.Username
+			c.UserName = u.Username
 		}
 		if u.PhoneNumber != "" {
 			c.PhoneNumber = u.PhoneNumber
 		}
 		if u.Username != "" {
-			c.Username = u.Username
+			c.UserName = u.Username
 		}
 		if u.Email != "" {
 			c.Email = u.Email

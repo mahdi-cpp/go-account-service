@@ -4,7 +4,7 @@ import (
 	"path/filepath"
 )
 
-const rootDir = "/media/mahdi/Cloud/Happle"
+const rootDir = "/media/mahdi/happle/cloud"
 const serviceDir = "services"
 
 func GetServicesPath(file string) string {

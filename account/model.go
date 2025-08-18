@@ -2,19 +2,28 @@ package account
 
 import "time"
 
-func (u *User) SetID(id string)                 { u.ID = id }
-func (u *User) SetCreationDate(t time.Time)     { u.CreationDate = t }
-func (u *User) SetModificationDate(t time.Time) { u.ModificationDate = t }
-func (u *User) GetID() string                   { return u.ID }
-func (u *User) GetCreationDate() time.Time      { return u.CreationDate }
-func (u *User) GetModificationDate() time.Time  { return u.ModificationDate }
+func (a *User) SetID(id string)          { a.ID = id }
+func (a *User) SetCreatedAt(t time.Time) { a.CreatedAt = t }
+func (a *User) SetUpdatedAt(t time.Time) { a.UpdatedAt = t }
+func (a *User) GetID() string            { return a.ID }
+func (a *User) GetCreatedAt() time.Time  { return a.CreatedAt }
+func (a *User) GetUpdatedAt() time.Time  { return a.UpdatedAt }
+
+type Common struct {
+	ID string `json:"id"`
+}
+
+type Date struct {
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+	DeletedAt time.Time `json:"deletedAt"`
+	Version   string    `json:"version"`
+}
 
 type User struct {
+	Common
 
-	// Core Identity & Basic Information
-	ID string `json:"id"` // Unique identifier for the user
-
-	Username    string `json:"username"`    // User's login username (must be unique)
+	UserName    string `json:"userName"`    // User's login username (must be unique)
 	DisplayName string `json:"displayName"` // Name displayed publicly (can differ from Username)
 	PhoneNumber string `json:"phoneNumber"` // User's phone number
 	Email       string `json:"email"`       // User's email address
@@ -47,12 +56,14 @@ type User struct {
 	IsTwoFactorEnabled bool   `json:"isTwoFactorEnabled"` // Indicates if two-factor authentication is enabled
 
 	// Timestamps & Tracking
-	LastActivity     time.Time `json:"lastActivity"`     // Timestamp of the user's last public activity in the app
-	CreationDate     time.Time `json:"creationDate"`     // Date and time when the user account was created
-	ModificationDate time.Time `json:"modificationDate"` // Date and time of the last modification to user's profile data
+	LastActivity time.Time `json:"lastActivity"` // Timestamp of the user's last public activity in the app
+	//CreationDate     time.Time `json:"creationDate"`     // Date and time when the user account was created
+	//ModificationDate time.Time `json:"modificationDate"` // Date and time of the last modification to user's profile data
 
 	// Generic/Extensible Metadata (for highly specific or future data)
 	Metadata map[string]string `json:"metadata"` // Flexible field for storing additional, application-specific data
+
+	Date
 }
 
 type Update struct {
